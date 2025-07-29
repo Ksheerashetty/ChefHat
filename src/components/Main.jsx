@@ -54,7 +54,7 @@ export default function Main() {
         />
         <button>+ Add Ingredient</button>
       </form>
-
+      <p>Note: Add 4 or more ingredients to get the recipe.</p>
       {ingredients.length > 0 && (
         <Ingredients
           ref={showRecipe}
