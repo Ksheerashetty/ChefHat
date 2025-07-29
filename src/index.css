@@ -29,6 +29,7 @@ header > h1 {
 main{
   padding: 30px 30px 10px;
 }
+
 form{
   padding: 10px;
   display: flex;
@@ -51,7 +52,6 @@ form > input {
     flex-direction: column;
     gap:10px;
   }
-  
 }
 
 form > button {
@@ -86,13 +86,13 @@ ul li{
   border: 2px solid #83aeea;
   border-radius: 8px;
   display: flex;
-  margin: 50px 0;
   justify-content: space-between;
   align-items: center;
   padding: 24px;
-  margin: 40px 0;
   flex-wrap: wrap;
   gap: 16px;
+  margin: 40px auto;
+  max-width: 1050px;
 }
 
 .get-recipe-btn {
@@ -110,12 +110,24 @@ ul li{
 }
 
 .suggested-recipe-container {
-    color: #475467;
+    color: #000000;
     line-height: 28px;
     font-size: 1.125rem;
     font-weight: 400;
+    margin-left: 6%;
 }
 
 .suggested-recipe-container ul li, .suggested-recipe-container ol li {
     margin-bottom: 8px;
+}
+
+.ingredients{
+  padding: 10px;
+  margin:0 auto;
+  max-width: 1000px;
+}
+
+.ingredients h4,
+.ingredients ul li {
+  padding: 3px;
 }

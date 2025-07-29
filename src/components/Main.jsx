@@ -1,25 +1,47 @@
-import React from "react";
+import { useState, useEffect, useRef } from "react";
 import Recipe from "./Recipe";
 import Ingredients from "./Ingredients";
-import { getRecipeFromMistral } from "./ai"
+import { getRecipeFromMistral } from "./ai";
 export default function Main() {
-  const [ingredients, setIngredients] = React.useState([]);
+  const [ingredients, setIngredients] = useState([]);
+  const [recipe, setRecipe] = useState("");
+  const showRecipe = useRef(null);
 
-  const [recipe, setRecipe] = React.useState("");
+  useEffect(() => {
+    if (recipe !== "" && showRecipe.current !== null) {
+      //   showRecipe.current.scrollIntoView({behaviour:"smooth"}); doesnt work on some browsers cuz of iFrame
+      const yCoord =
+        showRecipe.current.getBoundingClientRect().top + window.scrollY;
+      window.scroll({
+        top: yCoord,
+        behavior: "smooth",
+      });
+    }
+  }, [recipe]);
 
   function addIngredients(formData) {
     const newIngredient = formData.get("ingredient");
-    setIngredients((prev) => [
-      ...prev,
-      newIngredient.charAt(0).toUpperCase() +
-        newIngredient.slice(1).toLowerCase(),
-    ]);
+    if (
+      ingredients.some(
+        (item) => item.toLowerCase() === newIngredient.toLowerCase()
+      )
+    ) {
+      alert("Add a new Ingredient");
+      return;
+    }
+    if (newIngredient) {
+      setIngredients((prev) => [
+        ...prev,
+        newIngredient.charAt(0).toUpperCase() +
+          newIngredient.slice(1).toLowerCase(),
+      ]);
+    } else alert("Enter an ingredient");
   }
 
-   async function getRecipe() {
-        const recipeMarkdown = await getRecipeFromMistral(ingredients)
-        setRecipe(recipeMarkdown)
-    }
+  async function getRecipe() {
+    const recipeMarkdown = await getRecipeFromMistral(ingredients);
+    setRecipe(recipeMarkdown);
+  }
 
   return (
     <main>
@@ -34,7 +56,11 @@ export default function Main() {
       </form>
 
       {ingredients.length > 0 && (
-        <Ingredients ingredients={ingredients} getRecipe={getRecipe} />
+        <Ingredients
+          ref={showRecipe}
+          ingredients={ingredients}
+          getRecipe={getRecipe}
+        />
       )}
       {recipe && <Recipe recipe={recipe} />}
     </main>
